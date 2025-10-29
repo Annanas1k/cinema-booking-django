@@ -1,7 +1,7 @@
 from django.db import models
 
 class Hall(models.Model):
-    name = models.CharFielt(max_length=50)
+    name = models.CharField(max_length=50)
     total_rows = models.PositiveIntegerField()
     total_columns = models.PositiveIntegerField()
 
@@ -17,7 +17,7 @@ class Seat(models.Model):
     row = models.PositiveIntegerField()
     column = models.PositiveIntegerField()
     seat_type = models.CharField(max_length=11,
-                                 choics=[
+                                 choices=[
                                      ('regular', 'Regular'),
                                      ('vip', 'VIP')
                                  ], default='regular')
