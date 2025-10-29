@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,7 +42,7 @@ INSTALLED_APPS = [
     'users',
     'hall',
     'reservations',
-    'movies'
+    'movies',
 ]
 
 MIDDLEWARE = [
@@ -140,3 +141,37 @@ AUTH_USER_MODEL = 'users.User'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# cinema_project/settings.py
+
+# ... (restul setărilor)
+
+JAZZMIN_SETTINGS = {
+    # Titlul pe care îl vede utilizatorul pe tab-ul browser-ului
+    "site_title": "Cinema Admin",
+
+    # Titlul afișat în navbar
+    "site_header": "Cinema Booking System",
+
+    # Text în partea de jos a barei laterale
+    "site_brand": "Cinema Project",
+
+    # Sloganul afișat sub titlu
+    "site_logo_classes": "img-circle",
+
+    # Meniu lateral: 'dark' sau 'light'
+    "sidebar_themes": "dark-sidebar",
+
+    # Schema de culori a navbar-ului: "navbar-primary", "navbar-info" etc.
+    "navbar_classes": "navbar-dark navbar-primary",
+
+    # Permite ascunderea sidebar-ului în mod implicit
+    "sidebar_show_apk_button": False,
+
+    # Setează pictograme FontAwesome pentru aplicațiile custom
+    "icons": {
+        "users": "fas fa-users",
+        "movies": "fas fa-film",
+        "halls": "fas fa-door-open",
+        "reservations": "fas fa-ticket-alt",
+    }
+}
