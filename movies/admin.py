@@ -4,7 +4,7 @@ from .models import Movie, ShowTime
 
 @admin.register(Movie)
 class MovieAdmin(admin.ModelAdmin):
-    list_display = ('title', 'genre', 'duration', 'age_rating', 'release_date', 'language')
+    list_display = ('title', 'genre', 'duration', 'age_rating', 'release_date', 'language', 'poster')
     list_filter = ('genre', 'language', 'age_rating', 'release_date')
     search_fields = ('title', 'description')
     ordering = ('-release_date',)

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -57,10 +58,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'cinema_booking.urls'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -130,6 +132,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -137,37 +143,25 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
 
-# cinema_project/settings.py
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# cinema_project/settings.py
-
-# ... (restul setărilor)
 
 JAZZMIN_SETTINGS = {
-    # Titlul pe care îl vede utilizatorul pe tab-ul browser-ului
     "site_title": "Cinema Admin",
 
-    # Titlul afișat în navbar
     "site_header": "Cinema Booking System",
 
-    # Text în partea de jos a barei laterale
     "site_brand": "Cinema Project",
 
-    # Sloganul afișat sub titlu
     "site_logo_classes": "img-circle",
 
-    # Meniu lateral: 'dark' sau 'light'
     "sidebar_themes": "dark-sidebar",
 
-    # Schema de culori a navbar-ului: "navbar-primary", "navbar-info" etc.
     "navbar_classes": "navbar-dark navbar-primary",
 
-    # Permite ascunderea sidebar-ului în mod implicit
     "sidebar_show_apk_button": False,
 
-    # Setează pictograme FontAwesome pentru aplicațiile custom
     "icons": {
         "users": "fas fa-users",
         "movies": "fas fa-film",

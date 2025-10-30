@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>{% block title %}Cinema Booking System{% endblock %} - Django</title>
+    
+    <style>
+        /* CULORI TEMA ALBĂ */
+        :root {
+            --color-light: #ffffff;    /* Fundal principal ALB */
+            --color-navbar: #f8f8f8;   /* Fundal navbar (aproape alb) */
+            --color-dark: #333333;     /* Text principal (negru/gri închis) */
+            --color-accent: #e50914;   /* Roșu de accent (neschimbat) */
+            --color-border: #e0e0e0;   /* Linia de jos a navbar-ului */
+        }
+
+        /* Stiluri pentru corp și font */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--color-light);
+            color: var(--color-dark);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* -------------------------- */
+        /* NAV BAR (Aliniere perfectă)*/
+        /* -------------------------- */
+        .main-nav {
+            background-color: var(--color-navbar);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Umbră discretă */
+            padding: 12px 50px;
+
+            display: flex;
+            align-items: center; /* ALINIERE VERTICALĂ PE MIJLOC */
+            justify-content: space-between;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        /* Logo */
+        .logo {
+            /* Asigură că logo-ul stă pe linia de bază pentru alinierea perfectă */
+            line-height: 1;
+        }
+        .logo a {
+            color: var(--color-accent) !important;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 1.8em;
+            letter-spacing: 1px;
+            display: inline-block;
+        }
+
+        /* Meniul principal */
+        .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            /* Flex: 1 forțează meniul să ocupe spațiul central disponibil */
+            flex: 1;
+            justify-content: center; /* CENTRUL MENIULUI */
+        }
+
+        .nav-links li {
+            margin: 0 18px;
+        }
+
+        .nav-links a {
+            color: var(--color-dark); /* Link-uri de culoare închisă */
+            text-decoration: none;
+            font-size: 1.05em;
+            font-weight: 500;
+            padding: 5px 0;
+            border-bottom: 2px solid transparent;
+            transition: color 0.3s, border-bottom 0.3s;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--color-accent);
+            border-bottom: 2px solid var(--color-accent);
+        }
+
+        /* Secțiunea Utilizator */
+        .user-actions {
+            display: flex;
+            align-items: center; /* ALINIERE VERTICALĂ PE MIJLOC */
+        }
+
+        .user-actions span {
+            color: var(--color-dark);
+        }
+
+        .user-actions a {
+            color: var(--color-dark);
+            text-decoration: none;
+            margin-left: 15px;
+            padding: 8px 12px;
+            border-radius: 3px;
+            transition: background-color 0.3s, color 0.3s;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Butonul Login */
+        .user-actions a:first-child[style] {
+            color: var(--color-dark) !important;
+            border: 1px solid var(--color-dark); /* Border închis */
+        }
+        .user-actions a:first-child[style]:hover {
+            background-color: var(--color-dark) !important;
+            color: var(--color-light) !important; /* Text alb la hover */
+        }
+
+        /* Butonul Înregistrare (roșu de accent) */
+        .user-actions a:last-child {
+            background-color: var(--color-accent);
+            color: var(--color-light) !important;
+            font-weight: bold;
+        }
+        .user-actions a:last-child:hover {
+             background-color: #ff3333;
+        }
+
+        /* -------------------------- */
+        /* Conținut și Footer          */
+        /* -------------------------- */
+        .content {
+            flex: 1;
+            padding: 20px;
+            max-width: 1200px;
+            width: 90%;
+            margin: 20px auto;
+        }
+
+        a {
+            color: var(--color-accent);
+        }
+
+        footer {
+            background-color: var(--color-navbar);
+            color: var(--color-dark);
+            text-align: center;
+            padding: 20px;
+            margin-top: auto;
+            border-top: 1px solid var(--color-border);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="main-nav">
+{% load static %}
+        <div class="logo">
+            <a href="{% url 'home' %}">
+                🎬 KinoFlex
+            </a>
+        </div>
+
+        <ul class="nav-links">
+            <li>
+                <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Acasă</a>
+            </li>
+            <li>
+                <a href="#">Filme</a>
+            </li>
+            <li>
+                <a href="#">Program</a>
+            </li>
+            <li>
+                <a href="#">Cinematografe</a>
+            </li>
+            <li>
+                <a href="#">Noutăți</a>
+            </li>
+            <li>
+                <a href="#">Shop</a>
+            </li>
+        </ul>
+
+        <div class="user-actions">
+            {% if user.is_authenticated %}
+                <span style="margin-right: 15px;">Salut, {{ user.username }}</span>
+                <a href="">Logout</a>
+            {% else %}
+                <a href="" style="border: 1px solid var(--color-dark);">Login</a>
+                <a href="">Înregistrare</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="content">
+        {% block content %}
+            {% endblock content %}
+    </div>
+
+    <footer>
+        &copy; 2025 Cinema Booking System. Toate drepturile rezervate.
+    </footer>
+
+</body>
+</html>
