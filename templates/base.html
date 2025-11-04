@@ -1,208 +1,306 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ro">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>{% block title %}Cinema Booking System{% endblock %} - Django</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>{% block title %}CINEPLEX Booking System{% endblock %}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLMDJ8C8S_8I5pDkQ0d6K6rVn7d/6jQ9z8Zz6G+2e1/j8A5pDkQ0d6K6rVn7d/6jQ9z8Zz6G+2e1/j8A5pE8F5P2J01Y9C4/gQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <style>
-        /* CULORI TEMA ALBĂ */
+        /* Culori conform imaginii (Alb/Verde închis) */
         :root {
-            --color-light: #ffffff;    /* Fundal principal ALB */
-            --color-navbar: #f8f8f8;   /* Fundal navbar (aproape alb) */
-            --color-dark: #333333;     /* Text principal (negru/gri închis) */
-            --color-accent: #e50914;   /* Roșu de accent (neschimbat) */
-            --color-border: #e0e0e0;   /* Linia de jos a navbar-ului */
+            --bs-navbar-bg: #ffffff;
+            --bs-link-color: #212529;
+            --bs-link-hover-color: #5c8d45; /* Verde de accent */
+            --bs-success: #5c8d45;
+            --social-icon-color: #212529;
         }
 
-        /* Stiluri pentru corp și font */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--color-light);
-            color: var(--color-dark);
-            margin: 0;
-            padding: 0;
+            background-color: #f8f8f8;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        /* -------------------------- */
-        /* NAV BAR (Aliniere perfectă)*/
-        /* -------------------------- */
-        .main-nav {
-            background-color: var(--color-navbar);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Umbră discretă */
-            padding: 12px 50px;
-
-            display: flex;
-            align-items: center; /* ALINIERE VERTICALĂ PE MIJLOC */
-            justify-content: space-between;
-            border-bottom: 1px solid var(--color-border);
+        /* ------------------------------------- */
+        /* NAVBAR STILURI ȘI ALINIERE CENTRALĂ   */
+        /* ------------------------------------- */
+        .cineplex-navbar {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
-        /* Logo */
-        .logo {
-            /* Asigură că logo-ul stă pe linia de bază pentru alinierea perfectă */
-            line-height: 1;
-        }
-        .logo a {
-            color: var(--color-accent) !important;
-            text-decoration: none;
-            font-weight: 900;
-            font-size: 1.8em;
-            letter-spacing: 1px;
-            display: inline-block;
+        .cineplex-navbar .container-fluid {
+            max-width: 1300px;
         }
 
-        /* Meniul principal */
-        .nav-links {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            /* Flex: 1 forțează meniul să ocupe spațiul central disponibil */
-            flex: 1;
-            justify-content: center; /* CENTRUL MENIULUI */
-        }
-
-        .nav-links li {
-            margin: 0 18px;
-        }
-
-        .nav-links a {
-            color: var(--color-dark); /* Link-uri de culoare închisă */
-            text-decoration: none;
-            font-size: 1.05em;
+        .navbar-nav .nav-link {
+            color: var(--bs-link-color) !important;
             font-weight: 500;
-            padding: 5px 0;
-            border-bottom: 2px solid transparent;
-            transition: color 0.3s, border-bottom 0.3s;
-        }
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: var(--color-accent);
-            border-bottom: 2px solid var(--color-accent);
+            padding: 0.5rem 0.8rem;
+            margin-right: 5px;
         }
 
-        /* Secțiunea Utilizator */
-        .user-actions {
-            display: flex;
-            align-items: center; /* ALINIERE VERTICALĂ PE MIJLOC */
+        .navbar-nav .nav-link:hover {
+            color: var(--bs-link-hover-color) !important;
         }
 
-        .user-actions span {
-            color: var(--color-dark);
+        .btn-green {
+            background-color: var(--bs-success);
+            border-color: var(--bs-success);
+            color: #fff;
+            font-weight: 600;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+        }
+        .btn-green:hover {
+            background-color: #4b733c;
+            border-color: #4b733c;
         }
 
-        .user-actions a {
-            color: var(--color-dark);
-            text-decoration: none;
-            margin-left: 15px;
-            padding: 8px 12px;
-            border-radius: 3px;
-            transition: background-color 0.3s, color 0.3s;
-            line-height: 1;
+        .lang-switch {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            margin-left: 10px;
             display: flex;
             align-items: center;
         }
-
-        /* Butonul Login */
-        .user-actions a:first-child[style] {
-            color: var(--color-dark) !important;
-            border: 1px solid var(--color-dark); /* Border închis */
+        .lang-switch a {
+            color: var(--bs-success);
+            padding: 5px 3px;
+            text-decoration: none;
+            font-weight: 600;
         }
-        .user-actions a:first-child[style]:hover {
-            background-color: var(--color-dark) !important;
-            color: var(--color-light) !important; /* Text alb la hover */
-        }
-
-        /* Butonul Înregistrare (roșu de accent) */
-        .user-actions a:last-child {
-            background-color: var(--color-accent);
-            color: var(--color-light) !important;
-            font-weight: bold;
-        }
-        .user-actions a:last-child:hover {
-             background-color: #ff3333;
+        .lang-switch .active-lang {
+            color: #fff;
+            background-color: var(--bs-success);
+            border-radius: 4px;
         }
 
-        /* -------------------------- */
-        /* Conținut și Footer          */
-        /* -------------------------- */
-        .content {
-            flex: 1;
-            padding: 20px;
-            max-width: 1200px;
-            width: 90%;
-            margin: 20px auto;
+        .social-icons a {
+            color: var(--social-icon-color);
+            margin-left: 8px;
+            font-size: 1.2rem;
+            transition: color 0.2s;
+        }
+        .social-icons .fa-facebook-f { color: #3b5998; }
+        .social-icons .fa-instagram { color: #c32aa3; }
+        .social-icons .fa-youtube { color: #ff0000; }
+        .social-icons .fa-tiktok { color: #000000; }
+
+        /* ------------------------------------- */
+        /* FOOTER (Subsol) STILURI               */
+        /* ------------------------------------- */
+        .main-footer {
+            background-color: #ededed;
+            color: var(--bs-link-color);
+            padding: 40px 0;
+            margin-top: auto; /* Împinge footer-ul la fundul paginii */
+            border-top: 1px solid #e0e0e0;
         }
 
-        a {
-            color: var(--color-accent);
+        .footer-logo img {
+            height: 35px;
+            margin-bottom: 10px;
         }
 
-        footer {
-            background-color: var(--color-navbar);
-            color: var(--color-dark);
+        .footer-logo p {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links ul li a {
+            color: var(--bs-link-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            line-height: 2;
+        }
+
+        .footer-links ul li a:hover {
+            color: var(--bs-success);
+        }
+
+        .payment-icons img {
+            height: 30px;
+            margin-right: 10px;
+        }
+        .payment-icons .mia-logo {
+            height: 40px;
+        }
+
+        .app-store-icons img {
+            width: 150px;
+            margin-bottom: 5px;
+        }
+        .google-play-text {
+            font-size: 0.85rem;
+            color: var(--bs-success);
+            margin-top: -5px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #cfcfcf;
+            padding-top: 15px;
+            margin-top: 30px;
+            font-size: 0.8rem;
+            color: #6c757d;
             text-align: center;
-            padding: 20px;
-            margin-top: auto;
-            border-top: 1px solid var(--color-border);
+        }
+        .footer-bottom a {
+            color: #6c757d;
+            text-decoration: none;
+            padding: 0 10px;
+        }
+        .footer-bottom a:hover {
+            color: var(--bs-success);
         }
     </style>
 </head>
 <body>
 
-    <nav class="main-nav">
-{% load static %}
-        <div class="logo">
-            <a href="{% url 'home' %}">
-                🎬 KinoFlex
-            </a>
-        </div>
+    <header>
+        <nav class="navbar navbar-expand-lg bg-white border-bottom cineplex-navbar">
+            <div class="container-fluid align-items-center">
 
-        <ul class="nav-links">
-            <li>
-                <a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Acasă</a>
-            </li>
-            <li>
-                <a href="#">Filme</a>
-            </li>
-            <li>
-                <a href="#">Program</a>
-            </li>
-            <li>
-                <a href="#">Cinematografe</a>
-            </li>
-            <li>
-                <a href="#">Noutăți</a>
-            </li>
-            <li>
-                <a href="#">Shop</a>
-            </li>
-        </ul>
+                <a class="navbar-brand me-5" href="{% url 'home' %}">
+                    <img src="{% static 'img/cineplex_logo.png' %}" alt="CINEPLEX" style="height: 35px; vertical-align: middle;">
+                </a>
 
-        <div class="user-actions">
-            {% if user.is_authenticated %}
-                <span style="margin-right: 15px;">Salut, {{ user.username }}</span>
-                <a href="">Logout</a>
-            {% else %}
-                <a href="" style="border: 1px solid var(--color-dark);">Login</a>
-                <a href="">Înregistrare</a>
-            {% endif %}
-        </div>
-    </nav>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-    <div class="content">
+                <div class="collapse navbar-collapse" id="navbarNav">
+
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">FILME</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">PROGRAM</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">CINEMATOGRAFE</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">NOUTĂȚI</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">SHOP</a>
+                        </li>
+                    </ul>
+
+                    <div class="d-flex align-items-center actions-container">
+
+                        {% if user.is_authenticated %}
+                             <span class="me-3 small text-success">Salut, {{ user.username }}</span>
+                             <a href="{% url 'logout' %}" class="btn btn-green me-3">
+                                <i class="fas fa-sign-out-alt me-1"></i> LOGOUT
+                             </a>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="btn btn-green me-3">
+                                <i class="fas fa-lock me-1"></i> LOGIN
+                            </a>
+                        {% endif %}
+
+
+                        <div class="lang-switch me-3">
+                            <a href="#" class="active-lang p-1">RO</a>
+                            <a href="#" class="p-1" style="color: #6c757d;">EN</a>
+                        </div>
+
+                        <div class="social-icons d-flex align-items-center">
+                            <a href="#"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                            <a href="#"><i class="fab fa-tiktok"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container-fluid flex-grow-1" style="max-width: 1300px; margin: 20px auto;">
         {% block content %}
             {% endblock content %}
-    </div>
+    </main>
 
-    <footer>
-        &copy; 2025 Cinema Booking System. Toate drepturile rezervate.
+    <footer class="main-footer">
+        <div class="container-fluid" style="max-width: 1300px;">
+            <div class="row">
+
+                <div class="col-md-3">
+                    <div class="footer-logo">
+                        <img src="{% static 'img/cineplex_logo.png' %}" alt="CINEPLEX Logo">
+                        <p>© 2025 Toate drepturile înregistrate.</p>
+                    </div>
+
+                    <div class="social-icons footer-social-icons d-flex mt-3">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-md-3 footer-links">
+                    <h5>Informații</h5>
+                    <ul>
+                        <li><a href="#">Filme</a></li>
+                        <li><a href="#">Noutăți</a></li>
+                        <li><a href="#">Cinematografe</a></li>
+                        <li><a href="#">Regulament</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3 footer-links">
+                    <h5>Contact</h5>
+                    <ul>
+                        <li><a href="#">Contacte</a></li>
+                        <li><a href="#">Prețuri</a></li>
+                    </ul>
+                    <h5 class="mt-4">Acceptăm:</h5>
+                    <div class="payment-icons d-flex align-items-center">
+                        <img src="{% static 'img/visa.png' %}" alt="Visa">
+                        <img src="{% static 'img/mastercard.png' %}" alt="Mastercard">
+                    </div>
+                    <img src="{% static 'img/mia.png' %}" alt="MIA" class="mia-logo mt-2">
+                </div>
+
+                <div class="col-md-3 text-md-end">
+                    <div class="app-store-icons">
+                        <img src="{% static 'img/app_store.png' %}" alt="Descărcați pe App Store">
+                        <p class="google-play-text">pe Google Play</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row footer-bottom">
+                <div class="col-12">
+                    <a href="#">Termeni de utilizare</a> |
+                    <a href="#">Politica de confidențialitate</a> |
+                    <a href="#">Politica Cookie</a>
+                </div>
+            </div>
+        </div>
     </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    {% block scripts %}{% endblock %}
 
 </body>
 </html>
