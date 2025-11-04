@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+    
+
+    <h2 class="mt-4 mb-4" style="font-weight: 600;">ÎN DERULARE</h2>
+    
+    {% if movies %}
+        <div class="row row-cols-2 row-cols-md-4 row-cols-lg-5 g-4">
+            
+            {% for movie in movies %}
+                <div class="col">
+                    <a href="#" class="text-decoration-none text-dark d-block movie-card-link">
+                        <div class="card border-0 rounded-0 h-100">
+                            {% if movie.poster %}
+                                <img src="{{ movie.poster.url }}" class="card-img-top rounded-0" alt="{{ movie.title }}" style="object-fit: cover; height: auto;">
+                            {% else %}
+                                <div class="bg-light text-center d-flex align-items-center justify-content-center" style="height: 350px;">Fără Poster</div>
+                            {% endif %}
+
+                            <div class="card-body p-2 text-center">
+                                <h6 class="card-title mb-1" style="font-weight: 600; font-size: 0.95rem;">
+                                    {{ movie.title|truncatechars:25 }}
+                                </h6>
+                                <p class="card-text small" style="color: #d9534f; font-weight: bold;">
+                                    {% if movie.language %}{{ movie.language|upper }}{% else %}2D{% endif %} 
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+
+        </div>
+    {% else %}
+        <p class="mt-4">Nu există filme disponibile momentan.</p>
+    {% endif %}
+
+{% endblock content %}
