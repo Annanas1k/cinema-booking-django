@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
-Încarcă filtrul în template: {% load trailer_filters %}.
+{% load embed_video_tags %}
+
 {% block title %}{{ movie.title }}{% endblock %}
 
 {% block content %}
@@ -9,21 +10,40 @@
 
     <div class="col-12 mb-4">
         <h1 class="mb-3" style="font-weight: 700; color: #212529;">{{ movie.title|upper }}</h1>
-
+    {% if movie.clean_trailer_link %}
+            <div class="alert alert-info small" role="alert">
+                **DEBUG URL:** {{ movie.clean_trailer_link }}
+            </div>
+        {% else %}
+            <div class="alert alert-warning small" role="alert">
+                **DEBUG URL:** Clean link not found or original link is empty.
+            </div>
+        {% endif %}
         <div class="trailer-container ratio ratio-16x9 border rounded shadow-sm">
+
             {% if movie.trailer_url %}
-                <iframe
-                    src="{{ movie.embed_trailer_url }}"
-                    title="YouTube video player"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen>
-                </iframe>
+                {% video movie.clean_trailer_link as trailer %}
+                    {% if trailer.exists %}
+                        <iframe src="{{ trailer.url }}"
+                                title="YouTube video player"
+                                width="100%"
+                                height="100%"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                        </iframe>
+                    {% else %}
+                        <div class="bg-danger text-white d-flex align-items-center justify-content-center" style="height: 100%;">
+                            <p class="h3">Trailer URL is not valid (YouTube/Vimeo)</p>
+                        </div>
+                    {% endif %}
+                {% endvideo %}
             {% else %}
                 <div class="bg-dark text-white d-flex align-items-center justify-content-center">
                     <p class="h3">TRAILER UNAVAILABLE</p>
                 </div>
             {% endif %}
+
         </div>
     </div>
 
@@ -50,19 +70,19 @@
                                     <td style="font-weight: 500;">{{ movie.genre|default:"N/A"|upper }}</td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 20%; font-weight: 600;">Audio Language:</td>
+                                    <td style="font-weight: 600;">Audio Language:</td>
                                     <td style="font-weight: 500;">{{ movie.language|default:"N/A"|upper }}</td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 20%; font-weight: 600;">Duration:</td>
+                                    <td style="font-weight: 600;">Duration:</td>
                                     <td style="font-weight: 500;">{{ movie.duration }} minutes</td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 20%; font-weight: 600;">Age Rating:</td>
+                                    <td style="font-weight: 600;">Age Rating:</td>
                                     <td style="font-weight: 500; color: #d9534f;">{{ movie.age_rating|default:"GENERAL" }}</td>
                                 </tr>
                                 <tr>
-                                    <td style="width: 20%; font-weight: 600;">Release Date:</td>
+                                    <td style="font-weight: 600;">Release Date:</td>
                                     <td style="font-weight: 500;">{{ movie.release_date|date:"d M Y" }}</td>
                                 </tr>
                                 </tbody>

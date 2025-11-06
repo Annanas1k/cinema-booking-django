@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'hall',
     'reservations',
     'movies',
+    'embed_video',
 ]
 
 MIDDLEWARE = [
