@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load static %}
+Încarcă filtrul în template: {% load trailer_filters %}.
+{% block title %}{{ movie.title }}{% endblock %}
+
+{% block content %}
+
+<div class="row mt-4">
+
+    <div class="col-12 mb-4">
+        <h1 class="mb-3" style="font-weight: 700; color: #212529;">{{ movie.title|upper }}</h1>
+
+        <div class="trailer-container ratio ratio-16x9 border rounded shadow-sm">
+            {% if movie.trailer_url %}
+                <iframe
+                    src="{{ movie.embed_trailer_url }}"
+                    title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            {% else %}
+                <div class="bg-dark text-white d-flex align-items-center justify-content-center">
+                    <p class="h3">TRAILER UNAVAILABLE</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-12 mb-4">
+        <div class="card border-0 shadow-sm p-4">
+            <div class="row">
+
+                <div class="col-md-4 col-lg-3 text-center">
+                    {% if movie.poster %}
+                        <img src="{{ movie.poster.url }}" class="img-fluid rounded shadow-sm" alt="{{ movie.title }}" style="max-width: 250px;">
+                    {% else %}
+                        <div class="bg-light text-center d-flex align-items-center justify-content-center border" style="height: 350px;">No Poster</div>
+                    {% endif %}
+                </div>
+
+                <div class="col-md-8 col-lg-9 mt-4 mt-md-0">
+                    <h5 style="font-weight: 600;">MOVIE INFORMATION</h5>
+
+                    <div class="movie-info-table table-responsive mt-3">
+                        <table class="table table-borderless table-sm small">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 20%; font-weight: 600;">Genre:</td>
+                                    <td style="font-weight: 500;">{{ movie.genre|default:"N/A"|upper }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 20%; font-weight: 600;">Audio Language:</td>
+                                    <td style="font-weight: 500;">{{ movie.language|default:"N/A"|upper }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 20%; font-weight: 600;">Duration:</td>
+                                    <td style="font-weight: 500;">{{ movie.duration }} minutes</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 20%; font-weight: 600;">Age Rating:</td>
+                                    <td style="font-weight: 500; color: #d9534f;">{{ movie.age_rating|default:"GENERAL" }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 20%; font-weight: 600;">Release Date:</td>
+                                    <td style="font-weight: 500;">{{ movie.release_date|date:"d M Y" }}</td>
+                                </tr>
+                                </tbody>
+                        </table>
+                    </div>
+
+                    <hr>
+
+                    <h5 class="mt-4" style="font-weight: 600;">SYNOPSIS</h5>
+                    <p>{{ movie.description|default:"Description unavailable." }}</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 mb-4">
+        <div class="card border-0 shadow-sm p-4">
+            <h5 style="font-weight: 600;">SHOWTIME SCHEDULE</h5>
+
+            {% if showtimes_by_day %}
+                {% for day, showtimes_list in showtimes_by_day.items %}
+                    <div class="mb-3">
+                        <p class="small text-muted mb-1">{{ day }}</p>
+                        <div class="d-flex flex-wrap">
+                            {% for showtime in showtimes_list %}
+                                <a href="{% url 'booking' showtime.id %}" class="btn btn-outline-success me-2 mb-2" style="font-size: 0.9rem;">
+                                    {{ showtime.start_time|date:"H:i" }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-danger">No showtimes scheduled for this movie.</p>
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock content %}
