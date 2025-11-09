@@ -1,13 +1,16 @@
 # movies/admin.py
 from django.contrib import admin
+from embed_video.admin import AdminVideoMixin
+
 from .models import Movie, ShowTime
 
 @admin.register(Movie)
-class MovieAdmin(admin.ModelAdmin):
+class MovieAdmin(admin.ModelAdmin, AdminVideoMixin):
     list_display = ('title', 'genre', 'duration', 'age_rating', 'release_date', 'language', 'poster')
     list_filter = ('genre', 'language', 'age_rating', 'release_date')
     search_fields = ('title', 'description')
     ordering = ('-release_date',)
+    pass
 
 @admin.register(ShowTime)
 class ShowtimeAdmin(admin.ModelAdmin):

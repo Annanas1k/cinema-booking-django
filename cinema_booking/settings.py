@@ -49,12 +49,14 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'csp.middleware.CSPMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'cinema_booking.urls'
@@ -74,6 +76,9 @@ TEMPLATES = [
         },
     },
 ]
+# TEMPLATE_CONTEXT_PROCESSORS = (
+#     'django.template.context_processors.request',
+# )
 
 WSGI_APPLICATION = 'cinema_booking.wsgi.application'
 
@@ -170,3 +175,25 @@ JAZZMIN_SETTINGS = {
         "reservations": "fas fa-ticket-alt",
     }
 }
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# settings.py
+
+# ... (la sfarsitul fisierului)
+
+# CSP: Permite incarcarea iframe-urilor (trailerelor) din domeniile YouTube si Vimeo
+CSP_FRAME_SRC = (
+    "'self'",  # Permite sursele din propriul tau domeniu
+    "https://www.youtube.com",
+    "https://www.youtube-nocookie.com",
+    "https://player.vimeo.com"
+)
+
+# CSP: Permite incarcarea imaginilor (thumbnail-uri) din domeniile YouTube
+CSP_IMG_SRC = (
+    "'self'",
+    "data:", # Necesare pentru imagini codate (daca folosesti)
+    "https://i.ytimg.com", # Domeniul de imagini thumbnail al YouTube
+    "https://s.ytimg.com"
+)

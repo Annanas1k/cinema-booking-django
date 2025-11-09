@@ -6,43 +6,67 @@
 
 {% block content %}
 
-<div class="row mt-4">
+<!--<div class="row mt-4">-->
+<!--<iframe style="max-width: 100%" width="560" height="315"-->
+<!--  src="https://www.youtube-nocookie.com/embed/FgxwCaL6UTA"-->
+<!--  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen="allowfullscreen"-->
+<!--referrerpolicy="strict-origin-when-cross-origin"> </iframe>-->
+<!--    <iframe src="{{ movie.clean_trailer_link }}"-->
+<!--                                title="YouTube video player"-->
+<!--                                width="100%"-->
+<!--                                height="100%"-->
+<!--                                frameborder="0"-->
+<!--                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"-->
+<!--                                referrerpolicy="strict-origin-when-cross-origin"-->
+<!--                                allowfullscreen>-->
+<!--                        </iframe>-->
 
     <div class="col-12 mb-4">
         <h1 class="mb-3" style="font-weight: 700; color: #212529;">{{ movie.title|upper }}</h1>
-    {% if movie.clean_trailer_link %}
-            <div class="alert alert-info small" role="alert">
-                **DEBUG URL:** {{ movie.clean_trailer_link }}
-            </div>
-        {% else %}
-            <div class="alert alert-warning small" role="alert">
-                **DEBUG URL:** Clean link not found or original link is empty.
-            </div>
-        {% endif %}
+<!--    {% if movie.clean_trailer_link %}-->
+<!--            <div class="alert alert-info small" role="alert">-->
+<!--                **DEBUG URL:** {{ movie.clean_trailer_link }}-->
+<!--            </div>-->
+<!--        {% else %}-->
+<!--            <div class="alert alert-warning small" role="alert">-->
+<!--                **DEBUG URL:** Clean link not found or original link is empty.-->
+<!--            </div>-->
+<!--        {% endif %}-->
         <div class="trailer-container ratio ratio-16x9 border rounded shadow-sm">
 
-            {% if movie.trailer_url %}
-                {% video movie.clean_trailer_link as trailer %}
-                    {% if trailer.exists %}
-                        <iframe src="{{ trailer.url }}"
+<!--            {% if movie.clean_trailer_link %}-->
+<!--                {% video movie.clean_trailer_link as trailer %}-->
+<!--                    {% if trailer.exists %}-->
+<!--                        <iframe src="{{ movie.clean_trailer_link }}"-->
+<!--                                title="YouTube video player"-->
+<!--                                width="100%"-->
+<!--                                height="100%"-->
+<!--                                frameborder="0"-->
+<!--                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"-->
+<!--                                referrerpolicy="strict-origin-when-cross-origin"-->
+<!--                                allowfullscreen>-->
+<!--                        </iframe>-->
+<!--                    {% else %}-->
+<!--                        <div class="bg-danger text-white d-flex align-items-center justify-content-center" style="height: 100%;">-->
+<!--                            <p class="h3">Trailer URL is not valid (YouTube/Vimeo)</p>-->
+<!--                        </div>-->
+<!--                    {% endif %}-->
+<!--                {% endvideo %}-->
+<!--            {% else %}-->
+<!--                <div class="bg-dark text-white d-flex align-items-center justify-content-center">-->
+<!--                    <p class="h3">TRAILER UNAVAILABLE</p>-->
+<!--                </div>-->
+<!--            {% endif %}-->
+            <iframe src="{{ movie.clean_trailer_link }}"
                                 title="YouTube video player"
                                 width="100%"
                                 height="100%"
                                 frameborder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                referrerpolicy="strict-origin-when-cross-origin"
                                 allowfullscreen>
                         </iframe>
-                    {% else %}
-                        <div class="bg-danger text-white d-flex align-items-center justify-content-center" style="height: 100%;">
-                            <p class="h3">Trailer URL is not valid (YouTube/Vimeo)</p>
-                        </div>
-                    {% endif %}
-                {% endvideo %}
-            {% else %}
-                <div class="bg-dark text-white d-flex align-items-center justify-content-center">
-                    <p class="h3">TRAILER UNAVAILABLE</p>
-                </div>
-            {% endif %}
+
 
         </div>
     </div>

@@ -18,31 +18,28 @@ class Movie(models.Model):
     @property
     def clean_trailer_link(self):
         """
-        Extrage ID-ul video din orice format (lung sau scurt) si returneaza
-        un URL curat (youtu.be) pentru a asigura parsaarea de catre django-embed-video.
+        Returneaza linkul YouTube in format embed (https://www.youtube.com/embed/VIDEO_ID),
+        indiferent de formatul initial (watch, youtu.be, embed etc.).
         """
-        if self.trailer_url:
-            # 1. Incearca sa extraga ID-ul dintr-un URL lung (watch?v=ID...)
-            match_v = re.search(r'(?<=v=)[\w-]+', self.trailer_url)
 
-            # 2. Incearca sa extraga ID-ul dintr-un URL scurt (youtu.be/ID...)
-            match_short = re.search(r'(?<=youtu\.be/)[\w-]+', self.trailer_url)
+        if not self.trailer_url:
+            return None
 
-            if match_v:
-                # Curata ID-ul de parametri suplimentari si returneaza formatul scurt
-                video_id = match_v.group(0).split('&')[0]
-                return f'https://youtu.be/{video_id}'
+        url = self.trailer_url.strip()
 
-            elif match_short:
-                # Daca este deja link scurt sau curat, il returneaza
-                return self.trailer_url
+        # Extrage ID-ul din toate formatele posibile
+        patterns = [
+            r'(?:v=|\/embed\/|youtu\.be\/)([A-Za-z0-9_-]{11})',  # ID din watch?v=, /embed/, youtu.be/
+        ]
 
-            # 3. Daca e un link embed (youtube.com/embed/ID), il returneaza
-            elif 'youtube.com/embed/' in self.trailer_url:
-                return self.trailer_url
+        for pattern in patterns:
+            match = re.search(pattern, url)
+            if match:
+                video_id = match.group(1)
+                return f'https://www.youtube-nocookie.com/embed/{video_id}'
 
+        # Daca nu gaseste niciun ID valid
         return None
-
     def __str__(self):
         return self.title
 
