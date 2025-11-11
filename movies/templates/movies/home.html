@@ -1,41 +1,163 @@
 {% extends "base.html" %}
-
-{% block title %}Acasă | Filme în Program{% endblock %}
+{% load static %}
+{% block title %}
+    {{ page_title }}
+{% endblock %}
 
 {% block content %}
-    
-    <h1>🍿 {{ mesaj_bun_venit }}</h1>
-    
-    {% if movies %}
-        <div class="movie-list">
-            {% for movie in movies %}
-                <div class="movie-card" style="border: 1px solid #ccc; margin-bottom: 20px; padding: 15px;">
-                    {% if movie.poster %}
+<style>
+    /* Mărește butoanele caruselului */
+.carousel-control-prev,
+.carousel-control-next {
+    /* Mărește zona de click (butonul invizibil) */
+    width: 4rem; /* Lățime mai mare, de ex. 64px */
+    opacity: 1; /* Asigură vizibilitate maximă la hover și static */
+}
 
-                        <img src="{{ movie.poster.url }}" alt="Poster {{ movie.title }}" style="width: 100px; float: right; margin-left: 10px;">
-                    {% endif %}
-                    
-                    <h2>{{ movie.title }} ({{ movie.language }})</h2>
-                    <p>
-                        Gen: {{ movie.genre }} |
-                        Durată: {{ movie.duration }} min |
-                        Vârstă: {{ movie.age_rating }}
-                    </p>
-                    <p>
-                        {{ movie.description|truncatechars:150 }} 
-                    </p>
-                    
-                    <p>
-                        De la: {{ movie.min_price }} $ |
-                        Disponibil în {{ movie.showtime_count }} proiecții.
-                    </p>
-                    
-                    <a href="">Vezi Program & Rezervă</a>
+/* Mărește pictograma (săgeata) din interior */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    /* Crește mărimea imaginii SVG a săgeții */
+    width: 3rem;
+    height: 3rem;
+
+    /* Adaugă un fundal pentru a scoate săgeata în evidență */
+    background-color: rgba(0, 0, 0, 0.6); /* Fundal negru semi-transparent */
+    border-radius: 50%; /* Transformă fundalul într-un cerc */
+    padding: 10px; /* Adaugă spațiu în jurul pictogramei */
+    background-size: 1.5rem 1.5rem; /* Ajustează dimensiunea săgeții în fundal */
+}
+
+/* Stil la Hover: Schimbă culoarea fundalului la trecerea cu mouse-ul */
+.carousel-control-prev:hover .carousel-control-prev-icon,
+.carousel-control-next:hover .carousel-control-next-icon {
+    background-color: rgba(200, 200, 200, 0.8); /* Fundal gri deschis la hover */
+}
+</style>
+<div class="hero_banner mb-5 position-relative">
+
+    <div style="background-image: url('{% static 'img/banner.png' %}'); height: 500px; background-size: cover; background-position: center;">
+    </div>
+
+    <div class="filter-bar bg-white shadow-lg p-3 rounded d-flex justify-content-around position-absolute w-75 start-50 translate-middle-x" style="bottom: -25px; z-index: 10;">
+        <button class="btn btn-outline-secondary">Select Day</button>
+        <button class="btn btn-outline-secondary">Select Cinema</button>
+        <button class="btn btn-outline-secondary">Select Movie</button>
+        <button class="btn btn-outline-secondary">Select Time</button>
+        <a href="#" class="btn btn-danger">BUY TICKETS</a>
+        <a href="#" class="btn btn-success">NOW SHOWING</a>
+    </div>
+</div>
+
+<div class="container mt-5 pt-4">
+
+    <h2 class="mb-4">🎬 NOW SHOWING</h2>
+
+    <div id="nowPlayingCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            {% for movie in now_playing_movies %}
+
+                {% comment %} Deschide un nou slide la fiecare 6 filme {% endcomment %}
+                {% if forloop.counter0|divisibleby:6 %}
+
+                    {% comment %} Închide slide-ul anterior (dacă nu e primul) {% endcomment %}
+                    {% if not forloop.first %}
+                        </div> </div> {% endif %}
+
+                    {% comment %} Deschide noul slide {% endcomment %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <div class="row">
+                {% endif %}
+
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="card border-0 shadow-sm movie-card h-100">
+                        <a href="{% url 'movie_detail' movie.id %}">
+                            {% if movie.poster %}
+                                <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" class="card-img-top rounded">
+                            {% else %}
+                                <div class="bg-light text-center d-flex align-items-center justify-content-center border" style="height: 300px;">No Poster</div>
+                            {% endif %}
+                        </a>
+                        <div class="card-body p-2 text-center">
+                            <h6 class="card-title small mt-1" style="font-weight: 600;">{{ movie.title }}</h6>
+                            <span class="badge bg-danger small">{{ movie.age_rating }}</span>
+                        </div>
+                    </div>
                 </div>
+
+                {% comment %} Închide div-urile la ultimul element {% endcomment %}
+                {% if forloop.last %}
+                    </div> </div> {% endif %}
+
+            {% empty %}
+                <p class="text-muted">Currently, there are no scheduled movies.</p>
+            {% endfor %}
+
+        </div>
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#nowPlayingCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+
+        <button class="carousel-control-next" type="button" data-bs-target="#nowPlayingCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <hr class="my-5">
+
+    <h2 class="mb-4">📅 UPCOMING</h2>
+
+    <div id="upcomingCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            {% for movie in upcoming_movies %}
+
+                {% comment %} Deschide un nou slide la fiecare 6 filme {% endcomment %}
+                {% if forloop.counter0|divisibleby:6 %}
+                    {% if not forloop.first %}
+                        </div> </div> {% endif %}
+
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <div class="row">
+                {% endif %}
+
+                <div class="col-6 col-md-4 col-lg-2">
+                    <div class="card border-0 shadow-sm movie-card h-100">
+                        <a href="{% url 'movie_detail' movie.id %}">
+                            {% if movie.poster %}
+                                <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" class="card-img-top rounded">
+                            {% else %}
+                                <div class="bg-light text-center d-flex align-items-center justify-content-center border" style="height: 300px;">No Poster</div>
+                            {% endif %}
+                        </a>
+                        <div class="card-body p-2 text-center">
+                            <h6 class="card-title small mt-1" style="font-weight: 600;">{{ movie.title }}</h6>
+                            <span class="text-muted small">Release: {{ movie.release_date|date:"d M" }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                {% comment %} Închide div-urile la ultimul element {% endcomment %}
+                {% if forloop.last %}
+                    </div> </div> {% endif %}
+
+            {% empty %}
+                <p class="text-muted">No upcoming movies announced.</p>
             {% endfor %}
         </div>
-    {% else %}
-        <p>Momentan nu există filme programate. Reveniți curând!</p>
-    {% endif %}
+
+        <button class="carousel-control-prev" type="button" data-bs-target="#upcomingCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+
+        <button class="carousel-control-next" type="button" data-bs-target="#upcomingCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
 
 {% endblock content %}

@@ -173,8 +173,9 @@
         <nav class="navbar navbar-expand-lg bg-white border-bottom cineplex-navbar">
             <div class="container-fluid align-items-center">
 
-                <a class="navbar-brand me-5" href="{% url 'home' %}">
-                    <img src="{% static 'img/cineplex_logo.png' %}" alt="🎬KinoFlex" style="height: 35px; vertical-align: middle;">
+                <a class="navbar-brand me-5" href="{% url 'home' %}" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+                    <img src="{% static 'img/kinoflex_logo.png' %}" alt="🎬KinoFlex" style="height: 35px; vertical-align: middle; margin-right: 8px;">
+                    <h1 style="font-size: 1.5rem; margin: 0; line-height: 1;">KinoFlex</h1>
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -184,6 +185,9 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
 
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'home' %}">HOME</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'movie_list' %}">MOVIES</a>
                         </li>
@@ -243,7 +247,10 @@
 
                 <div class="col-md-3">
                     <div class="footer-logo">
-                        <img src="{% static 'img/cineplex_logo.png' %}" alt="CINEPLEX Logo">
+                        <a class="navbar-brand me-5" href="{% url 'home' %}" style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+                    <img src="{% static 'img/kinoflex_logo.png' %}" alt="🎬KinoFlex" style="height: 35px; vertical-align: middle; margin-right: 8px;">
+                    <h1 style="font-size: 1.5rem; margin: 0; line-height: 1;">KinoFlex</h1>
+                </a>
                         <p>© 2025 All rights reserved.</p>
                     </div>
 
