@@ -209,9 +209,12 @@
 
                         {% if user.is_authenticated %}
                              <span class="me-3 small text-success">Hello, {{ user.username }}</span>
-                             <a href="{% url 'logout' %}" class="btn btn-green me-3">
-                                <i class="fas fa-sign-out-alt me-1"></i> LOGOUT
-                             </a>
+                             <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-green me-3">
+                                   <i class="fas fa-sign-out-alt me-1"></i> LOGOUT
+                                </button>
+                            </form>
                         {% else %}
                             <a href="{% url 'login' %}" class="btn btn-green me-3">
                                 <i class="fas fa-lock me-1"></i> LOGIN
