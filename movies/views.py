@@ -30,7 +30,7 @@ def home_page(request):
         'now_playing_movies': now_playing_movies,
         'uncoming_movies': uncoming_movies,
         'banner_image_url': '/static/img/banner.png',
-        'page_title': 'Cinema | Home'
+        'page_title': 'Home'
     }
 
     return render(request, 'movies/home.html', context)
@@ -41,7 +41,7 @@ def movie_list_view(request):
 
     context = {
         'movies': all_movies,
-        'page_title': 'Toate Filmele',
+        'page_title': 'All Movies',
     }
     return render(request, 'movies/movies_list.html', context)
 
@@ -67,7 +67,7 @@ def movie_detail_view(request, movie_id):
     context = {
         'movie': movie,
         'showtimes_by_day': dict(showtimes_by_day),
-        'page_title': f'{movie.title} | Details and Schedule',  # Păstrează titlul în engleză
+        'page_title': f'{movie.title} | Details and Schedule',
     }
 
     return render(request, 'movies/movie_detail.html', context)

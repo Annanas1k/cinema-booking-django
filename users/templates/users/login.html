@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}User Login{% endblock %}
+{% block title %}
+    {{ page_title }} | {{ block.super }}
+{% endblock %}
 
 {% block content %}
 <div class="container my-5">
@@ -39,7 +41,7 @@
                     <a href="#" class="small-link text-success text-decoration-none">Forgot Password?</a>
                 </div>
 
-                <button type="submit" class="btn btn-success btn-lg w-100 mt-3 auth-btn">
+                <button type="submit" class="btn btn-secondary btn-lg w-100 mt-3 auth-btn">
                     AUTHENTICATE
                 </button>
 

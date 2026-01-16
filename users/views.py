@@ -22,7 +22,8 @@ def login_view(request):
         form = AuthenticationForm()
 
     context = {
-        'form': form
+        'form': form,
+        'page_title': 'Login',
     }
     return render(request, "user/login.html", context)
 
@@ -50,7 +51,8 @@ def register_view(request):
         form = RegisterForm()
 
     context = {
-        "form": form
+        "form": form,
+        'page_title': 'Registration',
     }
     return render(request, "users/register.html", context)
 

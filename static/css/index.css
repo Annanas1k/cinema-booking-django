@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+        /* Colors based on the image (White/Dark Green) */
+        :root {
+            --bs-navbar-bg: #ffffff;
+            --bs-link-color: #212529;
+            --bs-link-hover-color: #5c8d45; /* Accent Green */
+            --bs-success: #5c8d45;
+            --social-icon-color: #212529;
+        }
+
+        body {
+            background-color: #f8f8f8;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: "Montserrat", sans-serif;
+            font-weight: 300;
+        }
+
+        /* ------------------------------------- */
+        /* NAVBAR STYLES AND CENTRAL ALIGNMENT   */
+        /* ------------------------------------- */
+        .cineplex-navbar {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .cineplex-navbar .container-fluid {
+            max-width: 1300px;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--bs-link-color) !important;
+            font-weight: 500;
+            padding: 0.5rem 0.8rem;
+            margin-right: 5px;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--bs-link-hover-color) !important;
+        }
+
+        .btn-green {
+            background-color: var(--bs-success);
+            border-color: var(--bs-success);
+            color: #fff;
+            font-weight: 600;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+        }
+        .btn-green:hover {
+            background-color: #4b733c;
+            border-color: #4b733c;
+        }
+
+        .lang-switch {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .lang-switch a {
+            color: var(--bs-success);
+            padding: 5px 3px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .lang-switch .active-lang {
+            color: #fff;
+            background-color: var(--bs-success);
+            border-radius: 4px;
+        }
+
+        .social-icons a {
+            color: var(--social-icon-color);
+            margin-left: 8px;
+            font-size: 1.2rem;
+            transition: color 0.2s;
+        }
+        .social-icons .fa-facebook-f { color: #3b5998; }
+        .social-icons .fa-instagram { color: #c32aa3; }
+        .social-icons .fa-youtube { color: #ff0000; }
+        .social-icons .fa-tiktok { color: #000000; }
+
+        /* ------------------------------------- */
+        /* FOOTER STYLES                         */
+        /* ------------------------------------- */
+        .main-footer {
+            background-color: #ededed;
+            color: var(--bs-link-color);
+            padding: 40px 0;
+            margin-top: auto; /* Pushes footer to the bottom */
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .footer-logo img {
+            height: 35px;
+            margin-bottom: 10px;
+        }
+
+        .footer-logo p {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links ul li a {
+            color: var(--bs-link-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            line-height: 2;
+        }
+
+        .footer-links ul li a:hover {
+            color: var(--bs-success);
+        }
+
+        .payment-icons img {
+            height: 30px;
+            margin-right: 10px;
+        }
+        .payment-icons .mia-logo {
+            height: 40px;
+        }
+
+        .app-store-icons img {
+            width: 150px;
+            margin-bottom: 5px;
+        }
+        .google-play-text {
+            font-size: 0.85rem;
+            color: var(--bs-success);
+            margin-top: -5px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #cfcfcf;
+            padding-top: 15px;
+            margin-top: 30px;
+            font-size: 0.8rem;
+            color: #6c757d;
+            text-align: center;
+        }
+        .footer-bottom a {
+            color: #6c757d;
+            text-decoration: none;
+            padding: 0 10px;
+        }
+        .footer-bottom a:hover {
+            color: var(--bs-success);
+        }
+
+        .social-icons > a {
+            margin-right: 10px;
+        }

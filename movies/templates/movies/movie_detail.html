@@ -2,7 +2,7 @@
 {% load static %}
 {% load embed_video_tags %}
 
-{% block title %}{{ movie.title }}{% endblock %}
+{% block title %}{{ movie.title }} | {{ block.super }}{% endblock %}
 
 {% block content %}
 
