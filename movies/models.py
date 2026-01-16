@@ -2,7 +2,7 @@ import re
 
 from django.db import models
 from hall.models import Hall
-from embed_video.fields import EmbedVideoField # <-- Import NOU
+from embed_video.fields import EmbedVideoField
 
 class Movie(models.Model):
     title = models.CharField(max_length=100)
@@ -27,7 +27,6 @@ class Movie(models.Model):
 
         url = self.trailer_url.strip()
 
-        # Extrage ID-ul din toate formatele posibile
         patterns = [
             r'(?:v=|\/embed\/|youtu\.be\/)([A-Za-z0-9_-]{11})',  # ID din watch?v=, /embed/, youtu.be/
         ]
@@ -38,7 +37,6 @@ class Movie(models.Model):
                 video_id = match.group(1)
                 return f'https://www.youtube-nocookie.com/embed/{video_id}'
 
-        # Daca nu gaseste niciun ID valid
         return None
     def __str__(self):
         return self.title

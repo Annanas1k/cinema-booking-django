@@ -97,7 +97,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'cinema_db',
         'USER': 'postgres',
-        'PASSWORD': 'da',
+        'PASSWORD': 'admin123',
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -151,7 +151,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/users/login/'
 
 
 MEDIA_URL = 'media/'
@@ -183,9 +183,7 @@ JAZZMIN_SETTINGS = {
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-# settings.py
 
-# ... (la sfarsitul fisierului)
 
 # CSP: Permite incarcarea iframe-urilor (trailerelor) din domeniile YouTube si Vimeo
 CSP_FRAME_SRC = (

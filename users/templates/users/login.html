@@ -6,7 +6,7 @@
 <div class="container my-5">
     <div class="row justify-content-center">
         <div class="col-md-5">
-            <h1 class="text-danger mb-4">AUTHENTICATION</h1>
+            <h1 class="text-success mb-4 text-center">AUTHENTICATION</h1>
 
             <form method="post" class="login-form">
                 {% csrf_token %}
@@ -17,22 +17,23 @@
                     </div>
                 {% endif %}
 
-                {% for field in form %}
-                    <div class="form-group mb-4">
-                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                        <input type="{{ field.field.widget.input_type }}"
-                               name="{{ field.html_name }}"
-                               id="{{ field.id_for_label }}"
-                               class="form-control form-control-lg"
-                               placeholder="{{ field.label }}">
-
-                        {% if field.errors %}
-                            {% for error in field.errors %}
-                                <small class="text-danger d-block">{{ error }}</small>
-                            {% endfor %}
-                        {% endif %}
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="floating-label-group">
+                            {{ form.username }}
+                            <label for="{{ form.username.id_for_label }}" class="text-secondary">Username</label>
+                        </div>
                     </div>
-                {% endfor %}
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="floating-label-group">
+                            {{ form.password }}
+                            <label for="{{ form.password.id_for_label }}" class="text-secondary">Password</label>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="d-flex justify-content-end mb-4">
                     <a href="#" class="small-link text-success text-decoration-none">Forgot Password?</a>
@@ -44,7 +45,7 @@
 
                 <p class="text-center mt-4">
                     Don't have an account?
-                    <a href="#" class="text-success fw-bold">Register here</a>
+                    <a href="{% url 'register' %}" class="text-success fw-bold">Register here</a>
                 </p>
 
                 {% if next %}
@@ -55,22 +56,44 @@
     </div>
 </div>
 
+
 <style>
-/* Basic styles to match your requested aesthetic (Simple CSS, no JS) */
-.auth-btn {
-    background-color: #6c757d; /* Grayish-green from image */
-    border-color: #6c757d;
+.floating-label-group {
+    position: relative;
 }
-.auth-btn:hover {
-    background-color: #5a6268;
-    border-color: #5a6268;
-}
-.small-link {
-    color: #28a745 !important;
-}
-/* Style the inputs to match the height from your original image */
-.form-control-lg {
+.floating-label-group input {
+    width: 100% !important;
+    box-sizing: border-box !important;
     height: 55px;
+    border-radius: 8px;
+    padding: 1.2rem 0.75rem 0.4rem 0.75rem !important;
+    border: 1px solid #ced4da;
+}
+.floating-label-group label {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    background-color: transparent;
+    padding: 0 5px;
+    transition: 0.2s ease all;
+    pointer-events: none;
+}
+
+.floating-label-group input:focus ~ label,
+.floating-label-group input:not(:placeholder-shown) ~ label {
+    top: 0;
+    transform: translateY(-50%);
+    font-size: 12px;
+    background-color: #fff;
+    border-radius: 50px;
+    text-color: #178236 important!;
+    z-index: 10;
+}
+
+.floating-label-group input:focus {
+    border-color: #178236;
+    box-shadow: 0 0 0 0.1rem #178236;
 }
 </style>
 {% endblock content %}

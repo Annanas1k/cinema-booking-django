@@ -1,10 +1,122 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}User Registration{% endblock %}
 
-</body>
-</html>
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6"> <h1 class="text-success mb-4 text-center">REGISTRATION</h1>
+
+<form method="post" class="register-form">
+    {% csrf_token %}
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="floating-label-group">
+                {{ form.username }}
+                <label for="{{ form.username.id_for_label }}" class ="text-secondary">Username</label>
+            </div>
+            {% if form.username.errors %}<small class="text-danger">{{ form.username.errors.0 }}</small>{% endif %}
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="floating-label-group">
+                {{ form.last_name }}
+                <label for="{{ form.last_name.id_for_label }}" class ="text-secondary">Last Name</label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="floating-label-group">
+                {{ form.first_name }}
+                <label for="{{ form.first_name.id_for_label }}" class ="text-secondary">First Name</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="floating-label-group">
+                {{ form.email }}
+                <label for="{{ form.email.id_for_label }}" class ="text-secondary">Email Address</label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="floating-label-group">
+                {{ form.phone }}
+                <label for="{{ form.phone.id_for_label }}" class ="text-secondary">Phone Number</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="floating-label-group">
+                {{ form.password1 }}
+                <label for="{{ form.password1.id_for_label }}" class ="text-secondary">Password</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="floating-label-group">
+                {{ form.password2 }}
+                <label for="{{ form.password2.id_for_label }}" class ="text-secondary">Confirm Password</label>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-secondary btn-lg w-100 auth-btn">REGISTER NOW</button>
+
+    <p class="text-center mt-4">
+                    Do you have an account?
+                    <a href="{% url 'login' %}" class="text-success fw-bold">Login now</a>
+                </p>
+</form>
+            <p class="legal-text small text-muted mt-4 text-center">
+                By registering, you agree to our terms and that your personal information
+                is stored securely according to our privacy policy.
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+.floating-label-group {
+    position: relative;
+}
+.floating-label-group input {
+    height: 55px;
+    border-radius: 8px;
+    padding: 1.2rem 0.75rem 0.4rem 0.75rem !important;
+    border: 1px solid #ced4da;
+}
+.floating-label-group label {
+    position: absolute;
+    top: 50%;
+    left: 1rem;
+    transform: translateY(-50%);
+    background-color: transparent;
+    padding: 0 5px;
+    transition: 0.2s ease all;
+    pointer-events: none;
+}
+
+.floating-label-group input:focus ~ label,
+.floating-label-group input:not(:placeholder-shown) ~ label {
+    top: 0;
+    transform: translateY(-50%);
+    font-size: 12px;
+    background-color: #fff;
+    border-radius: 50px;
+    text-color: #178236 important!;
+    z-index: 10;
+}
+
+.floating-label-group input:focus {
+    border-color: #178236;
+    box-shadow: 0 0 0 0.1rem #178236;
+}
+</style>
+{% endblock content %}
