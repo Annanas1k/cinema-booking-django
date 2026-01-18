@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('movies.urls')),
     path('users/', include('users.urls')),
+    path('content/', include('content.urls')),
     ]
 
 if settings.DEBUG:

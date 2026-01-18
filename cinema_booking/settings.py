@@ -30,7 +30,7 @@ DEBUG = True
 
 
 # personal SESSION parameters:
-SESSION_COOKIE_AGE = 1800  
+SESSION_COOKIE_AGE = 1800
 SESSION_SAVE_EVERY_REQUEST = True  # Resetează expirarea la fiecare cerere (refresh/click)
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True # sesiune care expira la inchiderea browser-ului
 
@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'reservations',
     'movies',
     'embed_video',
+    'content',
 ]
 
 MIDDLEWARE = [
