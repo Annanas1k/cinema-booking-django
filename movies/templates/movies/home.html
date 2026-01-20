@@ -139,7 +139,6 @@
                     </div>
                 </div>
 
-                {% comment %} Închide div-urile la ultimul element {% endcomment %}
                 {% if forloop.last %}
                     </div> </div> {% endif %}
 
@@ -159,5 +158,13 @@
         </button>
     </div>
 </div>
+
+<!--news container start-->
+<div class="container my-5">
+    <h2 class="text-uppercase fw-bold mb-4">NEWS</h2>
+
+    {% include "includes/news_content_template.html" %}
+</div>
+<!--news container finish-->
 
 {% endblock content %}

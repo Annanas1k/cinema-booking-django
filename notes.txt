@@ -3,3 +3,4 @@
 1) age indentificator for users
 2) movie type refactor
 3) refactor : numarul de halls pentru fiecare  ccinema sa fie hall creat deja in baza de dsate cu legatura la acest numar
+4) exemplu: pentru news afisarea de facut cu un block de content dar nu de copiat acelasi html in ambele fimeluri

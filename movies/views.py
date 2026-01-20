@@ -2,6 +2,7 @@ from collections import defaultdict
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from .models import Movie, ShowTime
+from content.models import News
 
 from django.db.models import Exists, OuterRef
 def home_page(request):
@@ -26,11 +27,14 @@ def home_page(request):
         release_date__gte = now.date()
     )
 
+    news = News.objects.all()
+
     context = {
         'now_playing_movies': now_playing_movies,
         'uncoming_movies': uncoming_movies,
         'banner_image_url': '/static/img/banner.png',
-        'page_title': 'Home'
+        'news': news,
+        'page_title': 'Home',
     }
 
     return render(request, 'movies/home.html', context)
