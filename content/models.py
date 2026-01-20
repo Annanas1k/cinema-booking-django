@@ -17,3 +17,17 @@ class Cinema(models.Model):
     def __str__(self):
         return self.name
 
+
+class News(models.Model):
+    title = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='news/', blank=True, null=True)
+    short_description = models.CharField(max_length=250)
+    long_description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = "News"
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.title

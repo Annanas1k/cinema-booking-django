@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-uppercase fw-bold mb-4">NEWS</h2>
+
+    <div class="row">
+        {% for news_item in news %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="{{ news_item.image.url }}" class="card-img-top" alt="{{ news_item.title }}">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold mt-2">{{ news_item.title }}</h5>
+                    <p class="card-text text-muted">{{ news_item.short_description }}</p>
+                    <small class="text-muted small">{{ news_item.created_at|date:"d M Y" }}</small>
+                    <br>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#newsModal{{ news_item.id }}">
+                        read more!
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="newsModal{{ news_item.id }}" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header border-0">
+                        <h4 class="modal-title fw-bold">{{ news_item.title }}</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="{{ news_item.image.url }}" class="img-fluid rounded mb-3 w-100" alt="{{ news_item.title }}">
+                        <p class="text-muted small mb-3">added to: {{ news_item.created_at }}</p>
+                        <div class="news-content">
+                            {{ news_item.long_description|linebreaks }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

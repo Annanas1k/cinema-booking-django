@@ -1,0 +1,5 @@
+### NOTES PAGE ###
+
+1) age indentificator for users
+2) movie type refactor
+3) refactor : numarul de halls pentru fiecare  ccinema sa fie hall creat deja in baza de dsate cu legatura la acest numar
