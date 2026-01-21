@@ -166,27 +166,40 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 JAZZMIN_SETTINGS = {
-    "site_title": "Cinema Admin",
+    "site_title": "KinoFlex AdminPage",
 
     "site_header": "Cinema Booking System",
 
-    "site_brand": "Cinema Project",
+    "site_brand": "KinoFlex AdminPage",
 
-    "site_logo_classes": "img-circle",
+    "site_logo_classes": "fas fa-film",
 
     "sidebar_themes": "dark-sidebar",
 
     "navbar_classes": "navbar-dark navbar-primary",
 
     "sidebar_show_apk_button": False,
+    "topmenu_links": [
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"model": "users.User"},
+        {"model": "content.AdminTask"},
+    ],
+    "hide_models": ["content.AdminTask", "users.User"],
 
     "icons": {
-        "users": "fas fa-users",
-        "movies": "fas fa-film",
-        "halls": "fas fa-door-open",
-        "reservations": "fas fa-ticket-alt",
-    }
+        "users.User": "fas fa-users",
+        "movies.Movie": "fas fa-film",
+        "movies.ShowTime": "fas fa-eye",
+        "content.Cinema": "fas fa-house",
+        "content.News": "fas fa-newspaper",
+        "hall.Hall": "fas fa-broom",
+        "hall.Seat": "fas fa-chair",
+        "reservations.Reservation": "fas fa-ticket",
+    },
+    "default_icon_parents": "fas fa-chevron-circle-right",
+    "default_icon_children": "fas fa-bars",
 }
+
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 

@@ -1,0 +1,32 @@
+/* Colorează dropdown-ul de Status în funcție de valoarea selectată */
+select[name$="-status"],
+select[name$="-priority"]{
+    border-radius: 10px;
+    padding: 2px 5px;
+    color: white;
+    border: none;
+}
+
+/* Stiluri pentru fiecare opțiune */
+select[name$="-status"] option[value="todo"] { background-color: #6c757d; }
+select[name$="-status"] option[value="in_progress"] { background-color: #0d6efd; }
+select[name$="-status"] option[value="done"] { background-color: #198754; }
+
+/* Colorează fundalul selectului principal bazat pe ce e selectat (opțional, necesită JS pentru schimbare live) */
+select[name$="-status"]:has(option[value="todo"]:checked) { background-color: #6c757d; }
+select[name$="-status"]:has(option[value="in_progress"]:checked) { background-color: #0d6efd; }
+select[name$="-status"]:has(option[value="done"]:checked) { background-color: #198754; }
+
+/* Același lucru pentru Priority */
+select[name$="-priority"]:has(option[value="low"]:checked) {
+    background-color: #6c757d;
+    color: white;
+}
+select[name$="-priority"]:has(option[value="medium"]:checked) {
+    background-color: #F5B027;
+    color: white;
+}
+select[name$="-priority"]:has(option[value="high"]:checked) {
+    background-color: #dc3545;
+    color: white;
+}

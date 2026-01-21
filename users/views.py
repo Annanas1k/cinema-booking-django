@@ -57,4 +57,10 @@ def register_view(request):
     return render(request, "users/register.html", context)
 
 def profile_view(request):
-    return render(request, "users/profile.html")
+    current_user = request.user
+    context = {
+        'current_user': current_user,
+    }
+
+
+    return render(request, "users/profile.html", context)

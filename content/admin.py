@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Cinema, News
+from .models import Cinema, News, AdminTask
+from django.utils.html import format_html
 
 
 @admin.register(Cinema)
@@ -17,3 +18,17 @@ class NewsAdmin(admin.ModelAdmin):
     list_display = ('title', 'image', 'short_description', 'long_description', 'created_at')
     search_fields = ('title',)
     list_filter = ('title','created_at')
+
+
+@admin.register(AdminTask)
+class AdminTaskAdmin(admin.ModelAdmin):
+    list_display = ('title', 'description', 'created_at', 'deadline', 'status', 'priority')
+    list_filter = ('status', 'priority')
+    search_fields = ('title', 'description')
+    list_editable = ('status', 'priority', 'deadline')
+
+
+    class Media:
+        css = {
+            'all': ('css/custom_admin.css',)
+        }

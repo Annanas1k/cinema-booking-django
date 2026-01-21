@@ -35,9 +35,6 @@
                             <a class="nav-link" href="{% url 'movie_list' %}">MOVIES</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">SCHEDULE</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="{% url 'cinema_list' %}">CINEMAS</a>
                         </li>
                         <li class="nav-item">
@@ -51,8 +48,13 @@
                     <div class="d-flex align-items-center actions-container">
 
                         {% if user.is_authenticated %}
-                             <span class="me-3 small text-success">Hello, {{ user.last_name }}</span>
-                             <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                            <a href="{% url 'profile' %}" class="text-decoration-none d-flex align-items-center me-1">
+                                <span class="me-2 small text-success ">
+                                    Hello, {{ user.last_name }}
+                                </span>
+                                <i class="fa-solid fa-user text-success"></i>
+                            </a>
+                            <form action="{% url 'logout' %}" method="post" style="display: inline;">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-green me-3">
                                    <i class="fas fa-sign-out-alt me-1"></i> LOGOUT </button>
