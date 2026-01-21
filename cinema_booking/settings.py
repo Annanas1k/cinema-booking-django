@@ -26,15 +26,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-z5@56o#k4s(wr^)lvdeob1e=6h!f#s%$a_^5ls0+&1t$vsj)eo'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+DEBUG = False
+ALLOWED_HOSTS = ['*']
 
 # personal SESSION parameters:
 SESSION_COOKIE_AGE = 1800
 SESSION_SAVE_EVERY_REQUEST = True  # Resetează expirarea la fiecare cerere (refresh/click)
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True # sesiune care expira la inchiderea browser-ului
 
-ALLOWED_HOSTS = []
+
 
 
 # Application definition
