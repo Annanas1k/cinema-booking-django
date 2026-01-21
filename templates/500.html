@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ page_title }} | {{ block.super }}
+{% endblock %}
+{% block content %}
+<!--500 page start-->
+<section class="page_404 py-5 bg-white">
+    <div class="container">
+        <div class="row justify-content-center"> <div class="col-md-10 text-center">
+                <div class="four_zero_four_bg ">
+                    <h1 class="text-center fw-bold">500</h1>
+                </div>
+
+                <div class="contant_box_404">
+                    <h3 class="h2 fw-bold">Look like you're lost</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--500 page finish-->
+<style>
+    .page_404 {
+        font-family: 'Arvo', serif;
+    }
+
+    .four_zero_four_bg {
+        background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
+        height: 400px;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .four_zero_four_bg h1 {
+        font-size: 80px;
+    }
+
+    .contant_box_404 {
+        margin-top: -50px;
+    }
+
+    /* Am folosit clasa btn-success de Bootstrap pentru buton,
+       dar am păstrat logica ta de design pentru fundal */
+</style>
+{% endblock %}
