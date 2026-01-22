@@ -139,30 +139,60 @@
         </div>
     </div>
 
-    <div class="col-12 mb-4">
-        <div class="card border-0 shadow-sm p-4">
-            <h5 style="font-weight: 600;">SHOWTIME SCHEDULE</h5>
+<div class="col-12 mb-5">
+    <div class="card border-0 shadow-sm overflow-hidden" style="border-radius: 8px;">
+        <div class="card-header d-flex justify-content-between align-items-center py-3 bg-success text-white">
+            <h6 class="mb-0 text-uppercase fw-bold">PROGRAM</h6>
 
-            {% if showtimes_by_day %}
-                {% for day, showtimes_list in showtimes_by_day.items %}
-                    <div class="mb-3">
-                        <p class="small text-muted mb-1">{{ day }}</p>
+            <select id="daySelector" class="form-select form-select-sm border-0 bg-light" style="width: auto; font-weight: bold;">
+                {% for day in grouped_data.keys %}
+                    <option value="day-{{ forloop.counter }}">{{ day }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="card-body p-0">
+            {% for day, cinemas in grouped_data.items %}
+                <div id="day-{{ forloop.counter }}" class="day-content {% if not forloop.first %}d-none{% endif %}">
+
+                    {% for cinema_name, showtimes_list in cinemas.items %}
+                        <div class="bg-light p-2 px-3 border-bottom small fw-bold text-muted text-uppercase">
+                            <i class="bi bi-geo-alt-fill me-1"></i> {{ cinema_name }}
+                        </div>
+
                         <div class="d-flex flex-wrap">
-                            {% for showtime in showtimes_list %}
-                                <a href="{% url 'booking' showtime.id %}" class="btn btn-outline-success me-2 mb-2" style="font-size: 0.9rem;">
-                                    {{ showtime.start_time|date:"H:i" }}
+                            {% for st in showtimes_list %}
+                                <a href="{% url 'booking' st.id %}" class="showtime-link  text-decoration-none text-center p-3 border-end border-bottom">
+                                    <div class="time fw-bold text-success" style="font-size: 1.2rem; font-weight: 400">{{ st.start_time|date:"H:i" }}</div>
+                                    <div class="hall text-muted small">hall: {{ st.hall.name }}</div>
+                                    <div class="format small">
+                                        <span class="text-danger fw-bold">{% if st.hall.is_3d %}3D{% else %}2D{% endif %}</span>
+                                        <span class="text-success fw-bold">{{ movie.language|upper }}</span>
+                                    </div>
+                                    <div class="sound text-danger fw-bold" style="font-size: 0.7rem;">SURROUND</div>
                                 </a>
                             {% endfor %}
                         </div>
-                    </div>
-                {% endfor %}
-            {% else %}
-                <p class="text-danger">No showtimes scheduled for this movie.</p>
-            {% endif %}
+                    {% endfor %}
 
+                </div>
+            {% endfor %}
         </div>
     </div>
-
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const selector = document.getElementById('daySelector');
+    const dayContents = document.querySelectorAll('.day-content');
+
+    selector.addEventListener('change', function() {
+        const selectedId = this.value;
+        dayContents.forEach(content => {
+            content.classList.toggle('d-none', content.id !== selectedId);
+        });
+    });
+});
+</script>
 
 {% endblock content %}

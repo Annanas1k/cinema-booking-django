@@ -50,20 +50,17 @@
         <div class="carousel-inner">
             {% for movie in now_playing_movies %}
 
-                {% comment %} Deschide un nou slide la fiecare 6 filme {% endcomment %}
                 {% if forloop.counter0|divisibleby:6 %}
 
-                    {% comment %} Închide slide-ul anterior (dacă nu e primul) {% endcomment %}
                     {% if not forloop.first %}
                         </div> </div> {% endif %}
 
-                    {% comment %} Deschide noul slide {% endcomment %}
                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
                         <div class="row">
                 {% endif %}
 
                 <div class="col-6 col-md-4 col-lg-2">
-                    <div class="card border-0 shadow-sm movie-card h-100">
+                    <div class="card border-0  movie-card h-100 bg-transparent">
                         <a href="{% url 'movie_detail' movie.id %}">
                             {% if movie.poster %}
                                 <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" class="card-img-top rounded">
@@ -78,7 +75,6 @@
                     </div>
                 </div>
 
-                {% comment %} Închide div-urile la ultimul element {% endcomment %}
                 {% if forloop.last %}
                     </div> </div> {% endif %}
 
@@ -107,7 +103,6 @@
         <div class="carousel-inner">
             {% for movie in upcoming_movies %}
 
-                {% comment %} Deschide un nou slide la fiecare 6 filme {% endcomment %}
                 {% if forloop.counter0|divisibleby:6 %}
                     {% if not forloop.first %}
                         </div> </div> {% endif %}
@@ -151,6 +146,7 @@
         </button>
     </div>
 </div>
+    <hr class="my-5">
 
 <!--news container start-->
 <div class="container my-5">
