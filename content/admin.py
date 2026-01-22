@@ -1,6 +1,5 @@
 from django.contrib import admin
 from .models import Cinema, News, AdminTask
-from django.utils.html import format_html
 
 
 @admin.register(Cinema)
@@ -12,6 +11,9 @@ class CinemaAdmin(admin.ModelAdmin):
 
     search_fields = ('name', 'address')
     list_filter = ('name', 'address')
+
+    def halls_count(self, obj):
+        return obj.halls.count()
 
 @admin.register(News)
 class NewsAdmin(admin.ModelAdmin):

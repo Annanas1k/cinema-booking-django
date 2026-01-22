@@ -1,5 +1,4 @@
 import re
-
 from django.db import models
 from hall.models import Hall
 from embed_video.fields import EmbedVideoField

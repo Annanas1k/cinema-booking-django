@@ -11,11 +11,15 @@ class Cinema(models.Model):
     address = models.CharField(max_length=255)
     email = models.EmailField()
     opening_hours = models.CharField(max_length=100, default="Daily, 10:00 - 23:00")
-    halls_count = models.IntegerField(default=3)
     google_maps_embed = models.TextField(help_text="Google Maps iframe code")
+
+    @property
+    def halls_count(self):
+        return self.halls.count()
 
     def __str__(self):
         return self.name
+
 
 
 class News(models.Model):

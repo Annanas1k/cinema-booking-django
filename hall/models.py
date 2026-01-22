@@ -1,7 +1,9 @@
 from django.db import models
+from content.models import Cinema
 
 class Hall(models.Model):
     name = models.CharField(max_length=50)
+    cinema = models.ForeignKey(Cinema, on_delete=models.CASCADE, null=True, blank=True, related_name='halls')
     total_rows = models.PositiveIntegerField()
     total_columns = models.PositiveIntegerField()
 
@@ -43,7 +45,7 @@ class Hall(models.Model):
     #                 )
     #             )
     #     # Inserare în masă pentru performanță
-    #     Seat.objects.bulk_create(seats_to_create)
+    #     Seat.objects.bulk_create(seats_to_create
 
 
 class Seat(models.Model):
