@@ -1,10 +1,13 @@
 import re
 from django.db import models
+from django.utils.text import slugify
+
 from hall.models import Hall
 from embed_video.fields import EmbedVideoField
 
 class Movie(models.Model):
     title = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True, blank=True, null=True)
     description = models.TextField()
     genre = models.CharField(max_length=100)
     duration = models.PositiveIntegerField(help_text="Duration of the movie")
@@ -13,6 +16,12 @@ class Movie(models.Model):
     language = models.CharField(max_length=100)
     trailer_url = EmbedVideoField(blank=True, null=True)
     poster = models.ImageField(upload_to='posters/', blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        # Generăm slug-ul doar dacă nu există deja
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
     @property
     def clean_trailer_link(self):

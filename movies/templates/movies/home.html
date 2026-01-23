@@ -61,7 +61,7 @@
 
                 <div class="col-6 col-md-4 col-lg-2">
                     <div class="card border-0  movie-card h-100 bg-transparent">
-                        <a href="{% url 'movie_detail' movie.id %}">
+                        <a href="{% url 'movie_detail' movie.slug %}">
                             {% if movie.poster %}
                                 <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" class="card-img-top rounded">
                             {% else %}
@@ -113,7 +113,7 @@
 
                 <div class="col-6 col-md-4 col-lg-2">
                     <div class="card border-0 shadow-sm movie-card h-100">
-                        <a href="{% url 'movie_detail' movie.id %}">
+                        <a href="{% url 'movie_detail' movie.slug %}">
                             {% if movie.poster %}
                                 <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" class="card-img-top rounded">
                             {% else %}

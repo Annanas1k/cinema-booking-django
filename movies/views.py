@@ -75,8 +75,8 @@ def all_movies_view(request):
 
     return render(request, 'movies/movies_list.html', context)
 
-def movie_detail_view(request, movie_id):
-    movie = get_object_or_404(Movie, id=movie_id)
+def movie_detail_view(request, slug):
+    movie = get_object_or_404(Movie, slug=slug)
 
     showtimes = ShowTime.objects.filter(
         movie=movie,
@@ -84,13 +84,6 @@ def movie_detail_view(request, movie_id):
         start_time__gte=timezone.now()
     ).order_by('start_time')
 
-    # # Structura: { 'Cinema Loteanu': [showtime1, showtime2], 'Cinema Patria': [...] }
-    # shows_by_cinema = {}
-    # for st in showtimes:
-    #     cinema_name = st.hall.cinema.name if st.hall.cinema else "Cinema General"
-    #     if cinema_name not in shows_by_cinema:
-    #         shows_by_cinema[cinema_name] = []
-    #     shows_by_cinema[cinema_name].append(st)
     grouped_data = {}
 
     for st in showtimes:
@@ -115,5 +108,3 @@ def movie_detail_view(request, movie_id):
     return render(request, 'movies/movie_detail.html', context)
 
 
-def booking_view(request, showtime_id):
-    return render(request, "movies/booking.html")

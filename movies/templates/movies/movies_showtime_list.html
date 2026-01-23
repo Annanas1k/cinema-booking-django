@@ -13,7 +13,7 @@
             
             {% for movie in movies %}
                 <div class="col">
-                    <a href="{% url 'movie_detail' movie.id %}" class="text-decoration-none text-dark d-block movie-card-link">
+                    <a href="{% url 'movie_detail' movie.slug %}" class="text-decoration-none text-dark d-block movie-card-link">
                         <div class="card border-0 rounded-0 h-100">
                             {% if movie.poster %}
                                 <img src="{{ movie.poster.url }}" class="card-img-top rounded" alt="{{ movie.title }}" style="object-fit: cover; height: auto;">

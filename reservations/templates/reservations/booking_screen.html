@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="booking-page" style="background-color: #f4f4f4; min-height: 100vh; padding-bottom: 60px;">
+    <div class="container py-5">
+        <div class="row align-items-start">
+            <div class="col-lg-4 mb-4">
+                <div class="movie-card-detail p-4 bg-white shadow-sm rounded border-0">
+                    <h1 class="fw-bold mb-3" style="font-size: 2.2rem; line-height: 1.2; color: #1a1a1a;">{{ showtime.movie.title }}</h1>
+                    <div class="d-flex gap-3 mb-3">
+                        <span class="text-secondary fw-bold"> -language -</span>
+                    </div>
+                    <p class="mb-1 text-dark"><strong>{{ showtime.movie.duration }}</strong> min</p>
+                    <p class="mb-3 text-secondary small text-uppercase fw-bold">- 2d/3d -</p>
+
+                    <div class="hall-info mt-4 pt-4 border-top">
+                        <h5 class="fw-bold text-uppercase" style="letter-spacing: 1px; color: #5d743a;">{{ showtime.hall.cinema.name|upper|default:"CINEPLEX LOTEANU" }}</h5>
+                        <p class="text-muted small mb-4">Stefan cel Mare, 103, MD-2012, Chisinau</p>
+                        <p class="h5 fw-bold m-0">{{ showtime.start_time|date:"d F Y, H:i" }}</p>
+                        <p class="text-success fw-bold"> Hall: {{ showtime.hall.name }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8 text-center">
+                <div class="hall-container p-5 bg-white shadow-sm rounded mb-4">
+                    <h4 class="text-muted text-uppercase mb-4" style="letter-spacing: 5px; font-weight: 300;">Screen</h4>
+                    <div class="screen-visual mb-5"></div>
+
+                    <div class="hall-grid-wrapper d-inline-block p-2">
+                        {% for row, seats in rows_data.items %}
+                        <div class="seat-row d-flex align-items-center mb-2 justify-content-center">
+                            <span class="row-label text-muted">Row {{ row }}</span>
+
+                            <div class="d-flex gap-1">
+                                {% for seat in seats %}
+                                <div
+                                    class="seat-unit {% if seat.is_occupied %}occupied{% elif not seat.is_functional %}broken{% else %}available{% endif %}"
+                                    data-seat-id="{{ seat.id }}"
+                                    data-price="{{ showtime.price }}"
+                                    data-row="{{ row }}"
+                                    data-col="{{ seat.column }}"
+                                    title="Rând {{ row }}, Loc {{ seat.column }}">
+                                    <div class="seat-tooltip">Row {{ row }}<br>Seat {{ seat.column }}</div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="legend-area mt-5 pt-4 border-top d-flex justify-content-center gap-5">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="legend-dot available"></span> <small class="text-muted fw-bold">Available</small>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="legend-dot selected"></span> <small class="text-muted fw-bold">Selected</small>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="legend-dot occupied"></span> <small class="text-muted fw-bold">Occupied</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="action-panel" class="booking-action-panel bg-white p-4 shadow-sm rounded border">
+                    <div class="row align-items-center">
+                        <div class="col-md-3 text-start border-end">
+                            <p class="text-muted mb-0 small text-uppercase fw-bold">Selection</p>
+                            <h4 class="fw-bold mb-0"><span id="ticket-count">0</span> Tickets</h4>
+                        </div>
+                        <div class="col-md-4 text-start">
+                            <div class="price-display ps-3">
+                                <p class="text-muted small mb-0">Total amount</p>
+                                <span class="h2 fw-bold text-dark"><span id="total-price">0</span> lei</span>
+                                <small class="text-success d-block fw-bold" style="font-size: 0.7rem;">INCL. TVA ({{ showtime.price }} lei/tiket)</small>
+                            </div>
+                        </div>
+                        <div class="col-md-5 text-end d-flex justify-content-end gap-2">
+                            <button class="btn btn-outline-secondary btn-lg rounded-pill px-4 fw-bold shadow-sm border-2">CANCEL</button>
+                            <button id="btn-submit-reservation" class="btn btn-success btn-lg rounded-pill px-5 fw-bold shadow-sm" style="background-color: #5d743a; border: none;" disabled>
+                                BOOK
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Stiluri Generale */
+    .screen-visual {
+        height: 8px;
+        background: #2c3e50;
+        width: 70%;
+        margin: 0 auto;
+        border-radius: 50% / 100% 100% 0 0;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .seat-unit {
+        width: 32px;
+        height: 28px;
+        background: #e0e0e0;
+        border-radius: 4px 4px 8px 8px;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.2s ease;
+    }
+    .seat-unit.available:hover { transform: scale(1.15); background: #bdc3c7; z-index: 10; }
+    .seat-unit.occupied { background: #cc0000; cursor: not-allowed; }
+    .seat-unit.selected { background: #5d743a !important; box-shadow: 0 0 12px rgba(93, 116, 58, 0.4); }
+    .seat-unit.broken { visibility: hidden; }
+
+    .row-label { font-size: 0.7rem; width: 55px; text-align: right; margin-right: 15px; font-weight: bold; text-transform: uppercase; }
+
+    .legend-dot { width: 16px; height: 16px; border-radius: 4px; display: inline-block; }
+    .legend-dot.available { background: #e0e0e0; }
+    .legend-dot.selected { background: #5d743a; }
+    .legend-dot.occupied { background: #cc0000; }
+
+    .seat-unit:hover .seat-tooltip { display: block; }
+    .seat-tooltip {
+        display: none; position: absolute; top: -45px; left: 50%; transform: translateX(-50%);
+        background: #333; color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 10px; white-space: nowrap; z-index: 100;
+    }
+
+    /* Panoul de acțiune integrat */
+    .booking-action-panel {
+        border-top: 4px solid #e0e0e0 !important;
+        transition: all 0.3s ease;
+    }
+    .booking-action-panel.active {
+        border-top: 4px solid #5d743a !important;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+    }
+</style>
+
+<script>
+    const seats = document.querySelectorAll('.seat-unit.available');
+    const totalPriceEl = document.getElementById('total-price');
+    const ticketCountEl = document.getElementById('ticket-count');
+    const submitBtn = document.getElementById('btn-submit-reservation');
+    const actionPanel = document.getElementById('action-panel');
+
+    seats.forEach(seat => {
+        seat.addEventListener('click', () => {
+            seat.classList.toggle('selected');
+            const selected = document.querySelectorAll('.seat-unit.selected');
+            const count = selected.length;
+
+            // Update UI
+            ticketCountEl.innerText = count;
+            totalPriceEl.innerText = (count * parseFloat(seat.dataset.price)).toFixed(2);
+
+            // Enable/Disable Button & Style Panel
+            if (count > 0) {
+                submitBtn.disabled = false;
+                actionPanel.classList.add('active');
+                submitBtn.style.opacity = "1";
+            } else {
+                submitBtn.disabled = true;
+                actionPanel.classList.remove('active');
+                submitBtn.style.opacity = "0.6";
+            }
+        });
+    });
+
+    submitBtn.addEventListener('click', function() {
+        const selectedSeats = Array.from(document.querySelectorAll('.seat-unit.selected')).map(s => s.dataset.seatId);
+
+        // Trimitere date către server
+        fetch(window.location.href, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({ seat_ids: selectedSeats })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                window.location.href = data.redirect_url;
+            } else {
+                alert("Eroare: " + data.message);
+            }
+        });
+    });
+</script>
+{% endblock %}
