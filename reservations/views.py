@@ -4,8 +4,8 @@ from movies.models import ShowTime
 from .models import Reservation
 
 
-def booking_view(request, showtime_id):
-    showtime = get_object_or_404(ShowTime, id=showtime_id)
+def booking_view(request, hall_id, showtime_id):
+    showtime = get_object_or_404(ShowTime, id=showtime_id, hall_id=hall_id)
 
     all_seats = showtime.hall.seats.all().order_by('row', 'column')
 
