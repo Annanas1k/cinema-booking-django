@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="shop-wrapper py-5" style="background-color: #fcfcfc; min-height: 100vh; border-radius:10px;">
+    <div class="container">
+
+        <div class="text-center mb-5">
+            <h1 class="display-4 fw-bold" style="color: #2c3e50;">Cinema Shop</h1>
+            <p class="text-muted">Fresh snacks and exclusive movie merchandise</p>
+        </div>
+
+        {% for category in categories %}
+            <div class="category-section mb-5">
+                <div class="d-flex align-items-center mb-4">
+                    <h2 class="fw-bold mb-0" style="color: #5d743a; font-size: 1.8rem;">
+                        {{ category.category_name }}
+                    </h2>
+                    <div class="ms-3 flex-grow-1" style="height: 2px; background: linear-gradient(to right, #5d743a, transparent);"></div>
+                </div>
+
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                    {% for product in products %}
+                        {% if product.category.id == category.id and product.is_active %}
+                            <div class="col">
+                                <div class="card h-100 border-0 bg-transparent product-card">
+                                    <div class="p-3 text-center  rounded-top" style="height: 180px;">
+                                        {% if product.product_image %}
+                                            <img src="{{ product.product_image.url }}" class="img-fluid h-100" style="object-fit: contain;" alt="{{ product.product_name }}">
+                                        {% else %}
+                                            <div class="h-100 d-flex align-items-center justify-content-center bg-light rounded">
+                                                <i class="fas fa-box text-muted opacity-25 fa-2x"></i>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="card-body pt-2 text-center">
+                                        <h6 class="fw-bold text-dark mb-1">{{ product.product_name }}</h6>
+
+                                        {% if product.product_volume %}
+                                            <div class="text-muted small mb-2">
+                                                {{ product.product_volume }}
+                                                {% if product.category.category_name == 'Beverages' %}
+                                                    ml
+                                                {% elif product.category.category_name == 'Popcorn & Food' %}
+                                                    g
+                                                {% else %}
+                                                    units
+                                                {% endif %}
+                                            </div>
+                                        {% endif %}
+
+                                        <p class="text-muted small mb-3 px-2" style="font-size: 0.85rem;">
+                                            {{ product.product_description|truncatechars:60 }}
+                                        </p>
+
+                                        <div class="fw-bold text-success h8 mb-0">
+                                            {{ product.product_price }} <span class="text-muted">lei</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+
+        {% endfor %}
+
+    </div>
+</div>
+
+<style>
+    .product-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 12px;
+        background: #ffffff;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
+    }
+
+    h2 {
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+</style>
+{% endblock %}

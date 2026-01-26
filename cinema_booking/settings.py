@@ -184,7 +184,7 @@ JAZZMIN_SETTINGS = {
         {"model": "users.User"},
         {"model": "content.AdminTask"},
     ],
-    "hide_models": ["content.AdminTask", "users.User"],
+    "hide_models": ["content.AdminTask", "users.User", "content.ShopProducts"],
 
     "icons": {
         "users.User": "fas fa-users",
@@ -195,6 +195,7 @@ JAZZMIN_SETTINGS = {
         "hall.Hall": "fas fa-broom",
         "hall.Seat": "fas fa-chair",
         "reservations.Reservation": "fas fa-ticket",
+        "content.ShopCategory": "fas fa-shop",
     },
     "default_icon_parents": "fas fa-chevron-circle-right",
     "default_icon_children": "fas fa-bars",

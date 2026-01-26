@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Cinema, News, AdminTask
+from .models import Cinema, News, AdminTask, ShopCategory, ShopProducts
 
 
 @admin.register(Cinema)
@@ -34,3 +34,27 @@ class AdminTaskAdmin(admin.ModelAdmin):
         css = {
             'all': ('css/custom_admin.css',)
         }
+
+
+class ProductInline(admin.TabularInline):
+    model = ShopProducts
+    extra = 1
+    fields = ('product_name', 'product_volume', 'product_price', 'is_active', 'product_image')
+
+@admin.register(ShopCategory)
+class ShopCategoryAdmin(admin.ModelAdmin):
+    list_display = ('category_name', 'get_product_count')
+    search_fields = ('category_name',)
+    inlines = [ProductInline]
+
+    def get_product_count(self, obj):
+        return obj.products.count()
+    get_product_count.short_description = "Number of Products"
+
+@admin.register(ShopProducts)
+class ShopProductsAdmin(admin.ModelAdmin):
+
+    list_display = ('product_name','product_volume', 'category', 'product_price', 'is_active')
+    list_filter = ('category', 'is_active')
+    search_fields = ('product_name', 'product_description')
+    list_editable = ('product_price', 'is_active')
