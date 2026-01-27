@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block title%}
+    {{ page_title }} | {{ block.super }}
+{% endblock %}
+
 {% block content %}
 <style>
     :root {
@@ -41,7 +45,7 @@
     }
     .btn-cancel-link:hover { color: #a71d2a; }
 </style>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <div class="container py-5">
     <div class="row">
         <div class="col-lg-4 mb-4">
@@ -120,7 +124,27 @@
                                                 <span class="fw-bold text-brand-green">R{{ res.seat.row }} - C{{ res.seat.column }}</span>
                                             </div>
                                             <div class="col-md-3 text-end">
-                                                <button class="btn btn-brand-green btn-sm rounded-pill px-3 mb-1 w-100">DETAILS</button>
+                                                <button class="btn btn-brand-green btn-sm rounded-pill px-3 mb-1 w-100"
+                                                        onclick="generateTicketQR('{{ res.id }}', '{{ res.showtime.movie.title }}', '{{ res.showtime.start_time|date:'Y-m-d H:i' }}', '{{ res.seat.row }}', '{{ res.seat.column }}')">
+                                                    DETAILS
+                                                </button>
+                                                <div class="modal fade" id="qrModal" tabindex="-1" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content rounded-4 border-0 shadow">
+                                                            <div class="modal-header border-0">
+                                                                <h5 class="modal-title fw-bold">Ticket Details</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body text-center pb-5">
+                                                                <div id="qrcode" class="d-flex justify-content-center mb-3"></div>
+                                                                <h6 id="modalMovieTitle" class="fw-bold mb-1"></h6>
+                                                                <p id="modalTicketInfo" class="small text-muted mb-0"></p>
+                                                                <hr class="mx-5 opacity-25">
+                                                                <div class="small text-brand-green fw-bold">SCAN AT ENTRANCE</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <form method="POST" onsubmit="return confirm('Cancel this reservation?');">
                                                     {% csrf_token %}
                                                     <input type="hidden" name="cancel_reservation_id" value="{{ res.id }}">
@@ -157,4 +181,40 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    // Funcția de generare
+function generateTicketQR(id, movie, time, row, col) {
+    // 1. Curățăm zona unde se va genera QR-ul (important!)
+    const container = document.getElementById("qrcode");
+    container.innerHTML = "";
+
+    // 2. Creăm obiectul JSON
+    const ticketData = {
+        res_id: id,
+        movie: movie,
+        time: time,
+        seat: "R" + row + "-C" + col
+    };
+
+    // 3. Generăm QR-ul (Verifică dacă ai inclus librăria qrcode.js în head)
+    new QRCode(container, {
+        text: JSON.stringify(ticketData),
+        width: 200,
+        height: 200,
+        colorDark: "#5d8a4c", // Verdele tău
+        colorLight: "#ffffff"
+    });
+
+    // 4. Completăm datele în modal
+    document.getElementById("modalMovieTitle").innerText = movie;
+    document.getElementById("modalTicketInfo").innerText = `Row ${row}, Seat ${col} • ${time}`;
+
+    // 5. Declanșăm manual deschiderea Modal-ului
+    var myModal = new bootstrap.Modal(document.getElementById('qrModal'));
+    myModal.show();
+}
+</script>
+
 {% endblock %}
