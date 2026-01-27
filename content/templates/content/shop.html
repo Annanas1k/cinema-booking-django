@@ -20,11 +20,11 @@
                     <div class="ms-3 flex-grow-1" style="height: 2px; background: linear-gradient(to right, #5d743a, transparent);"></div>
                 </div>
 
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-4">
                     {% for product in products %}
-                        {% if product.category.id == category.id and product.is_active %}
+                        {% if product.category.id == category.id  %}
                             <div class="col">
-                                <div class="card h-100 border-0 bg-transparent product-card">
+                                <div class="card h-100 border-0 bg-transparent product-card {% if not product.is_active %}inactive-product{% endif %}">
                                     <div class="p-3 text-center  rounded-top" style="height: 180px;">
                                         {% if product.product_image %}
                                             <img src="{{ product.product_image.url }}" class="img-fluid h-100" style="object-fit: contain;" alt="{{ product.product_name }}">
@@ -32,6 +32,9 @@
                                             <div class="h-100 d-flex align-items-center justify-content-center bg-light rounded">
                                                 <i class="fas fa-box text-muted opacity-25 fa-2x"></i>
                                             </div>
+                                        {% endif %}
+                                        {% if not product.is_active %}
+                                            <span class="badge bg-secondary position-absolute top-50 start-50 translate-middle">Sold Out</span>
                                         {% endif %}
                                     </div>
 
@@ -87,6 +90,25 @@
     h2 {
         text-transform: uppercase;
         letter-spacing: 1px;
+    }
+
+
+    /* Fundalul gri pentru cardul întreg */
+    .inactive-product {
+        background-color: #ededed !important; /* Gri deschis */
+        border: 1px solid #ddd !important;
+        pointer-events: none; /* Dezactivează interacțiunea */
+    }
+
+    /* Asigurăm că imaginea capătă efectul de alb-negru */
+    .inactive-product img {
+        filter: grayscale(100%);
+        opacity: 0.6;
+    }
+
+    /* Schimbăm culoarea prețului dacă e inactiv */
+    .inactive-product .text-success {
+        color: #888 !important;
     }
 
 </style>

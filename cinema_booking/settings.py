@@ -184,7 +184,7 @@ JAZZMIN_SETTINGS = {
         {"model": "users.User"},
         {"model": "content.AdminTask"},
     ],
-    "hide_models": ["content.AdminTask", "users.User", "content.ShopProducts"],
+    "hide_models": ["content.AdminTask", "users.User", "content.ShopProducts", "hall.Seat"],
 
     "icons": {
         "users.User": "fas fa-users",
