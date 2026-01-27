@@ -1,45 +1,3 @@
-# from django.shortcuts import render, get_object_or_404
-#
-# from movies.models import ShowTime
-# from .models import Reservation
-#
-#
-# def booking_view(request, hall_id, showtime_id):
-#     showtime = get_object_or_404(ShowTime.objects.select_related('movie','hall'),
-#                                  id=showtime_id, hall_id=hall_id)
-#
-#     hall = showtime.hall
-#     movie = showtime.movie
-#
-#     all_seats = showtime.hall.seats.all().order_by('row', 'column')
-#
-#     occupied_seats_ids = Reservation.objects.filter(
-#         showtime = showtime,
-#         status__in = ['reserved', 'paid']
-#     ).values_list('seat_id', flat=True)
-#
-#     rows_data = {}
-#     for seat in all_seats:
-#         if seat.row not in rows_data:
-#             rows_data[seat.row] = []
-#
-#         rows_data[seat.row].append({
-#             'id': seat.id,
-#             'column': seat.column,
-#             'is_occupied': seat.id in occupied_seats_ids,
-#             'is_functional': seat.is_functional
-#         })
-#
-#     context = {
-#         'showtime': showtime,
-#         "rows_data": rows_data,
-#         "hall": hall,
-#         "movie": movie,
-#         "page_title": "Booking",
-#     }
-#     return render(request, 'reservations/booking_screen.html', context)
-
-
 import json
 from django.http import JsonResponse
 from django.db import transaction
@@ -49,12 +7,11 @@ from movies.models import ShowTime
 from .models import Reservation
 from django.contrib.auth.decorators import login_required
 
-@login_required
+@login_required(login_url='/users/login')
 def booking_view(request, hall_id, showtime_id):
     showtime = get_object_or_404(ShowTime.objects.select_related('movie','hall'),
                                  id=showtime_id, hall_id=hall_id)
 
-    # --- LOGICA PENTRU SALVARE REZERVARE (POST) ---
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
@@ -86,8 +43,6 @@ def booking_view(request, hall_id, showtime_id):
                         status='reserved'
                     )
 
-            # URL-ul unde trimiți utilizatorul după succes (ex: pagina de profil sau plată)
-            # redirect_url = reverse('reservations:my_reservations')
             return JsonResponse({
                 'status': 'success',
                 'redirect_url': reverse('booking_success', kwargs={'showtime_id': showtime_id})

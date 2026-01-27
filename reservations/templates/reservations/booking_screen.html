@@ -82,7 +82,7 @@
                             </div>
                         </div>
                         <div class="col-md-5 text-end d-flex justify-content-end gap-2">
-                            <button class="btn btn-outline-secondary btn-lg rounded-pill px-4 fw-bold shadow-sm border-2">CANCEL</button>
+                            <button id="btn-cancel-selection" class="btn btn-outline-secondary btn-lg rounded-pill px-4 fw-bold shadow-sm border-2">CANCEL</button>
                             <button id="btn-submit-reservation" class="btn btn-success btn-lg rounded-pill px-5 fw-bold shadow-sm" style="background-color: #5d743a; border: none;" disabled>
                                 BOOK
                             </button>
@@ -149,6 +149,8 @@
     const ticketCountEl = document.getElementById('ticket-count');
     const submitBtn = document.getElementById('btn-submit-reservation');
     const actionPanel = document.getElementById('action-panel');
+    const cancelBtn = document.getElementById('btn-cancel-selection');
+
 
     seats.forEach(seat => {
         seat.addEventListener('click', () => {
@@ -193,6 +195,29 @@
                 alert("Eroare: " + data.message);
             }
         });
+    });
+
+
+    cancelBtn.addEventListener('click', () => {
+        // 1. Găsim toate locurile care sunt în starea 'selected'
+        const selectedSeats = document.querySelectorAll('.seat-unit.selected');
+
+        // 2. Eliminăm clasa 'selected' de pe fiecare loc
+        selectedSeats.forEach(seat => {
+            seat.classList.remove('selected');
+        });
+
+        // 3. Resetăm afișajul pentru preț și număr de bilete
+        ticketCountEl.innerText = '0';
+        totalPriceEl.innerText = '0';
+
+        // 4. Dezactivăm butonul de BOOK și resetăm stilul panoului
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = "0.6";
+        actionPanel.classList.remove('active');
+
+        // Opțional: Un mic feedback în consolă sau vizual
+        console.log("Selection cleared!");
     });
 </script>
 {% endblock %}
